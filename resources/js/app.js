@@ -4,7 +4,7 @@ import routes from './login';
 import home from './home';
 Vue.use(VueRouter);
 let path = window.location.pathname;
-path =path.replace('/project/public/','');
+path =path.replace('/','');
 let router="";
 switch (path) {
     case 'home':
