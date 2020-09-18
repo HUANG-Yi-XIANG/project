@@ -17,8 +17,7 @@ class checkVariable
     public function handle($request, Closure $next)
     {
         $user = Auth::User();
-        $userImg = $user->image;
-        $request->merge(compact('userImg'));
+        $request->merge(compact('user'));
         return $next($request);
     }
 }

@@ -1,25 +1,30 @@
 
 <template>
     <div class="upload_div">
-        <span class="upload_label">
+        <span class="upload_label" style="cursor:pointer" @click.prevent="click">
             Upload File
         </span>
-        <input type="file" class="upload_input" name="image" value="Browse" style="width:70px;"  @change="upload">
+     
+        <input type="file" class="upload_input" name="image" value="Browse" style="width:70px;cursor:pointer;"  @change="upload">
+    
     </div>
 
-    
 </template>
 <script>
 
     export default {
-        props: ['csrf', 'upload-image'],
+        props:  {
+            route: { type: String, required: true }
+        },
         data() {
             return {
                imgUrl:'',
             };
         },
         methods: {
-            
+            click:function () {                
+                $(".upload_input").trigger('click');
+            },
             upload: function (e) {
                 var reader = new FileReader();
                 if(window.FileReader){
@@ -32,13 +37,6 @@
                     }          
                     reader.readAsDataURL(file);
                 }
-
-                   
-                // if (reader.imgUrl != "" && reader.imgUrl != undefined) {
-                //     console.log(reader);
-                    
-                //     this.getData(reader.imgUrl);
-                // }
             },
             getReduce: function(img) {
                 let reduceImg = new Image();
@@ -57,11 +55,11 @@
                 }
             }, 
             uploadData:function (img) {
-                 axios.post(this.uploadImage, {    
+                
+                 axios.post(`${this.route}/image`, {    
                         img: img,
                         }).then(response => {
                             alert('上傳成功');
-                            // this.$router.push('/');
                             this.$router.go();
                         })
                 

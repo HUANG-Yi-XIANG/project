@@ -26,14 +26,24 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         return view('home',[
-            'userImage' => $request->userImg,
+            'userName' => $request->user->name,
+            'userEmail' => $request->user->email,
+            'userImage' => $request->user->image,
         ]);
     }
-    public function uploadImage(Request $request){
+
+    public function userUpdate(Request $request){
         $userModel = new User;
         $userModel = $userModel->find(Auth::User()->id);
-        $userModel->image = $request->img;
+        if($request->image == 'image') {
+            $userModel->image = $request->img;
+        } else {
+            $userModel->name = $request->name;
+            $userModel->email = $request->email;
+        }
         $userModel->save();
      
     }
+
+  
 }

@@ -12,6 +12,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/nav.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -21,6 +23,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modal.css') }}" rel="stylesheet">
     @yield('head')
 </head>
 <style>
@@ -33,13 +36,18 @@
 }
 .upload_label{
     position: relative;
-    z-index: 0;
+    z-index: 10;
     display: inline-block;
     cursor: pointer;
     color: #fff;
     padding: 10px 0;
     text-transform: uppercase;
     font-size: 6px;
+    transition:all .3s ease-out;
+}
+.upload_label:hover{
+    font-size: 15px;
+    transition:all .3s ease-out;
 }
 .upload_input{
     position: absolute;
@@ -55,15 +63,15 @@
 
            
                 @if(is_null($userImage))
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image:url({{ asset('image/S__22216706.jpg') }})"> 
+                <a  class="img logo rounded-circle mb-5" style="background-image:url({{ asset('image/S__22216706.jpg') }})"> 
                     <div id="app">
-                            @yield('content')
+                        <upload-image route="{{ route('userUpdate')}}"></upload-image>     
                     </div>
                 </a>
                 @else 
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image:url({{ $userImage }})">
+                <a  class="img logo rounded-circle mb-5" style="background-image:url({{ $userImage }})">
                     <div id="app">
-                            @yield('content')
+                        <upload-image route="{{ route('userUpdate')}}"></upload-image>     
                     </div>
                 </a>
                 @endif
@@ -71,6 +79,9 @@
                 <div class="row">
                     <div class="col">
                         <h4 style="color:#ffff">Hi!,{{Auth::User()->name}}</h4>
+                    </div>
+                    <div class="col" style="display: flex;justify-content: flex-end;">
+                        <i class="far fa-address-card fa-2x" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal"></i>
                     </div>
                 </div>
     
@@ -112,7 +123,7 @@
                         <a href="#">Portfolio</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="{{url('/resume')}}">Resume</a>
                     </li>
                 </ul>
             </div>
@@ -157,7 +168,7 @@
                                 <a class="nav-link" href="#">Portfolio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
+                                <a class="nav-link" href="{{url('/resume')}}">Resume</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" onclick="event.preventDefault();
@@ -167,10 +178,17 @@
                     </div>
                 </div>
             </nav>
-       
+             
         </div>
     </div>
-   
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div id="upDateUser">
+                        <user-update data="{{ $userImage }}" user="{{ $userName }}" email="{{ $userEmail }}" route="{{ route('userUpdate')}}"></user-update>   
+                </div>
+ 
+            </div>
+        </div>
 </body>
 
 </html>

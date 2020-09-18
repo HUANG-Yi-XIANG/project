@@ -71,6 +71,7 @@ export default {
           password_confirmation: this.password_confirmation
         })
         .then(response => {
+          this.$router.push('/');
           this.$router.go();
         })
         .catch(error => {

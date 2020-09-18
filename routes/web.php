@@ -14,7 +14,8 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', "Auth\LoginController@showLoginForm")->name('/');
+Route::get('/', 'ResumeController@resume')->name('/');
+Route::get('/index', "Auth\LoginController@showLoginForm");
 Route::post('/login', "Auth\LoginController@login")->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
@@ -25,5 +26,7 @@ Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('pass
 // Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home')->middleware('checkVariable');
-    Route::post('/uploadImage','HomeController@uploadImage')->name('uploadImage');
+    // Route::get('/resume', 'HomeController@resume')->middleware('checkVariable');
+    Route::post('/userUpdate/{image?}','HomeController@userUpdate')->name('userUpdate');
 });
+Route::get('/test','ResumeController@test');
